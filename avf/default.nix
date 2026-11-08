@@ -202,13 +202,16 @@ with lib;
 
     services.avahi = {
       enable = true;
-      # Sometimes during startup, Terminal will discover only the IPv6 address
-      # and then only whitelist that one for GRPC.
-      # Remove once this is solved. See #5
-      ipv6 = false;
-      publish = {
-        enable = true;
-        userServices = true;
+      settings = {
+        # Sometimes during startup, Terminal will discover only the IPv6 address
+        # and then only whitelist that one for GRPC.
+        # Remove once this is solved. See #5
+        server.use-ipv6 = false;
+        publish = {
+          disable-publishing = false;
+          disable-user-service-publishing = false;
+          publish-addresses = true;
+        };
       };
     };
 
@@ -421,7 +424,7 @@ with lib;
       };
 
       environment = {
-        LIBGL_DRIVERS_PATH = "${pkgs.mesa.drivers}/lib/dri";
+        LIBGL_DRIVERS_PATH = "${pkgs.mesa}/lib/dri";
         LD_LIBRARY_PATH = "/run/opengl-driver/lib";
       };
     };
@@ -439,7 +442,7 @@ with lib;
     systemd.network.enable = true;
     networking.useNetworkd = true;
     networking.dhcpcd.enable = false;
-    services.resolved.dnssec = "false";
+    services.resolved.settings.Resolve.DNSSEC = "false";
     networking.useDHCP = true;
     networking.firewall.enable = true; # default
     networking.nftables.enable = true;
