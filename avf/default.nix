@@ -261,21 +261,21 @@ with lib;
     boot.kernelPackages = mkIf (!cfg.useGenericKernel) pkgs.linuxPackages_6_1;
 
     boot.kernelPatches = mkIf (!cfg.useGenericKernel) [
-      {
-        name = "avf-ballon";
-        patch = "${base}/build/debian/kernel/patches/avf/arm64-balloon.patch";
-        ${
-          if lib.versionAtLeast lib.trivial.release "25.05" then
-            "structuredExtraConfig"
-          else
-            "extraStructuredConfig"
-        } =
-          with lib.kernel; {
-            SND_VIRTIO = module;
-            SND = yes;
-            SOUND = yes;
-          };
-      }
+      # {
+      #   name = "avf-ballon";
+      #   patch = "${base}/build/debian/kernel/patches/avf/arm64-balloon.patch";
+      #   ${
+      #     if lib.versionAtLeast lib.trivial.release "25.05" then
+      #       "structuredExtraConfig"
+      #     else
+      #       "extraStructuredConfig"
+      #   } =
+      #     with lib.kernel; {
+      #       SND_VIRTIO = module;
+      #       SND = yes;
+      #       SOUND = yes;
+      #     };
+      # }
       {
         name = "avf-cpufreq";
         patch = "${base}/build/debian/kernel/patches/avf/virtual-cpufreq.patch";
